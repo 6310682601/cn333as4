@@ -4,11 +4,17 @@ import android.os.Bundle
 import android.widget.EditText
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -21,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.BlendMode.Companion.Color
 import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -62,6 +69,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
     var width by remember { mutableStateOf("") }
@@ -72,18 +80,30 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
             .padding(0.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        
-        EditNumberField1(
+        TextField(
             value = width,
             onValueChange = { width = it },
-
-            )
-
-        EditNumberField2(
+            label = {
+                Text(
+                    text = "Width",
+                    fontSize = 20.sp,
+                )
+            },
+            modifier = Modifier.fillMaxWidth().padding(60.dp),
+            singleLine = true
+        )
+        TextField(
             value = height,
             onValueChange = { height = it },
-
-            )
+            label = {
+                Text(
+                    text = "Height",
+                    fontSize = 20.sp,
+                )
+            },
+            modifier = Modifier.fillMaxWidth().padding(60.dp),
+            singleLine = true
+        )
 
         Button(onClick = { /*TODO*/ }) {
             Text(
@@ -92,49 +112,6 @@ fun HomeScreen(navController: NavController, modifier: Modifier = Modifier) {
             )
         }
     }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun EditNumberField1(
-    value: String,
-    onValueChange: (String) -> Unit
-) {
-    TextField(
-        value = value,
-        onValueChange = onValueChange,
-        label = {
-            Text(
-                text = "Width",
-                fontSize = 20.sp,
-            )
-        },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(60.dp),
-        singleLine = true
-    )
-}
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun EditNumberField2(
-    value: String,
-    onValueChange: (String) -> Unit
-) {
-    TextField(
-        value = value,
-        onValueChange = onValueChange,
-        label = {
-            Text(
-                text = "Height",
-                fontSize = 20.sp,
-            )
-        },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(60.dp),
-        singleLine = true
-    )
 }
 
 @Composable
