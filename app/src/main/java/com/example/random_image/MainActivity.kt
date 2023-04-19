@@ -28,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -58,7 +59,10 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
+var error: String = ""
+var url: String = ""
+var width: String = ""
+var height: String = ""
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -71,8 +75,8 @@ fun RandomImageScreen(modifier: Modifier = Modifier) {
     ) {
         var width by remember { mutableStateOf("") }
         var height by remember { mutableStateOf("") }
-        var url: String = ""
-        var status: Int = 0
+        var error by remember { mutableStateOf("") }
+        var url by remember { mutableStateOf("") }
         TextField(
             value = width,
             onValueChange = { width = it },
@@ -84,7 +88,7 @@ fun RandomImageScreen(modifier: Modifier = Modifier) {
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(60.dp),
+                .padding(20.dp),
             singleLine = true
         )
 
@@ -99,28 +103,25 @@ fun RandomImageScreen(modifier: Modifier = Modifier) {
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(60.dp),
+                .padding(20.dp),
             singleLine = true
         )
         Text(
             text = "Select your picture type.",
             fontSize = 20.sp,
-            )
-        Spacer(modifier = Modifier.height(30.dp))
+        )
+        Spacer(modifier = Modifier.height(10.dp))
         Row() {
             Button(onClick = {
                 val w = width.toIntOrNull()
                 val h = height.toIntOrNull()
-                if (w != null || h != null){
-                    if(w in 8..2000 && h in 8..2000){
-                        url = "https://loremflickr.com/$w/$h/movie"
-                        status = 1
-                    }else{
-                        status = 2
-                    }
-                }else{
-                    status = 3
-                }}) {
+                if (w != null && h != null && w in 8..2000 && h in 8..2000) {
+                    url = "https://loremflickr.com/$w/$h/movie"
+                    error = ""
+                } else {
+                    error = "Please enter width and height again."
+                }
+            }) {
                 Text(
                     text = "movie",
                     fontSize = 20.sp,
@@ -133,12 +134,11 @@ fun RandomImageScreen(modifier: Modifier = Modifier) {
                 if (w != null || h != null){
                     if(w in 8..2000 && h in 8..2000){
                         url = "https://loremflickr.com/$w/$h/game"
-                        status = 1
                     }else{
-                        status = 2
+                        error = "Please enter width and height again."
                     }
                 }else{
-                    status = 3
+                    error = "Please enter width and height."
                 }}) {
                 Text(
                     text = "game",
@@ -152,12 +152,11 @@ fun RandomImageScreen(modifier: Modifier = Modifier) {
                 if (w != null || h != null){
                     if(w in 8..2000 && h in 8..2000){
                         url = "https://loremflickr.com/$w/$h/album"
-                        status = 1
                     }else{
-                        status = 2
+                        error = "Please enter width and height again."
                     }
                 }else{
-                    status = 3
+                    error = "Please enter width and height."
                 }
             }) {
                 Text(
@@ -166,7 +165,7 @@ fun RandomImageScreen(modifier: Modifier = Modifier) {
                 )
             }
         }
-        Spacer(modifier = Modifier.height(15.dp))
+        Spacer(modifier = Modifier.height(5.dp))
         Row() {
             Button(onClick = {
                 val w = width.toIntOrNull()
@@ -174,12 +173,11 @@ fun RandomImageScreen(modifier: Modifier = Modifier) {
                 if (w != null || h != null){
                     if(w in 8..2000 && h in 8..2000){
                         url = "https://loremflickr.com/$w/$h/book"
-                        status = 1
                     }else{
-                        status = 2
+                        error = "Please enter width and height again."
                     }
                 }else{
-                    status = 3
+                    error = "Please enter width and height."
                 }
             }) {
                 Text(
@@ -194,12 +192,11 @@ fun RandomImageScreen(modifier: Modifier = Modifier) {
                 if (w != null || h != null){
                     if(w in 8..2000 && h in 8..2000){
                         url = "https://loremflickr.com/$w/$h/face"
-                        status = 1
                     }else{
-                        status = 2
+                        error = "Please enter width and height again."
                     }
                 }else{
-                    status = 3
+                    error = "Please enter width and height."
                 }}) {
                 Text(
                     text = "face",
@@ -213,12 +210,11 @@ fun RandomImageScreen(modifier: Modifier = Modifier) {
                 if (w != null || h != null){
                     if(w in 8..2000 && h in 8..2000){
                         url = "https://loremflickr.com/$w/$h/fashion"
-                        status = 1
                     }else{
-                        status = 2
+                        error = "Please enter width and height again."
                     }
                 }else{
-                    status = 3
+                    error = "Please enter width and height."
                 }
             }) {
                 Text(
@@ -227,7 +223,7 @@ fun RandomImageScreen(modifier: Modifier = Modifier) {
                 )
             }
         }
-        Spacer(modifier = Modifier.height(15.dp))
+        Spacer(modifier = Modifier.height(5.dp))
         Row() {
             Button(onClick = {
                 val w = width.toIntOrNull()
@@ -235,12 +231,11 @@ fun RandomImageScreen(modifier: Modifier = Modifier) {
                 if (w != null || h != null){
                     if(w in 8..2000 && h in 8..2000){
                         url = "https://loremflickr.com/$w/$h/shoes"
-                        status = 1
                     }else{
-                        status = 2
+                        error = "Please enter width and height again."
                     }
                 }else{
-                    status = 3
+                    error = "Please enter width and height."
                 }
             }) {
                 Text(
@@ -255,12 +250,11 @@ fun RandomImageScreen(modifier: Modifier = Modifier) {
                 if (w != null || h != null){
                     if(w in 8..2000 && h in 8..2000){
                         url = "https://loremflickr.com/$w/$h/watch"
-                        status = 1
                     }else{
-                        status = 2
+                        error = "Please enter width and height again."
                     }
                 }else{
-                    status = 3
+                    error = "Please enter width and height."
                 }
             }) {
                 Text(
@@ -275,12 +269,11 @@ fun RandomImageScreen(modifier: Modifier = Modifier) {
                 if (w != null || h != null){
                     if(w in 8..2000 && h in 8..2000){
                         url = "https://loremflickr.com/$w/$h/furniture"
-                        status = 1
                     }else{
-                        status = 2
+                        error = "Please enter width and height again."
                     }
                 }else{
-                    status = 3
+                    error = "Please enter width and height."
                 }
             }) {
                 Text(
@@ -289,7 +282,7 @@ fun RandomImageScreen(modifier: Modifier = Modifier) {
                 )
             }
         }
-        Spacer(modifier = Modifier.height(15.dp))
+        Spacer(modifier = Modifier.height(5.dp))
         Row() {
             Button(onClick = {
                 val w = width.toIntOrNull()
@@ -297,12 +290,11 @@ fun RandomImageScreen(modifier: Modifier = Modifier) {
                 if (w != null || h != null){
                     if(w in 8..2000 && h in 8..2000){
                         url = "https://loremflickr.com/$w/$h/dog"
-                        status = 1
                     }else{
-                        status = 2
+                        error = "Please enter width and height again."
                     }
                 }else{
-                    status = 3
+                    error = "Please enter width and height."
                 }
             }) {
                 Text(
@@ -317,12 +309,11 @@ fun RandomImageScreen(modifier: Modifier = Modifier) {
                 if (w != null || h != null){
                     if(w in 8..2000 && h in 8..2000){
                         url = "https://loremflickr.com/$w/$h/paris"
-                        status = 1
                     }else{
-                        status = 2
+                        error = "Please enter width and height again."
                     }
                 }else{
-                    status = 3
+                    error = "Please enter width and height."
                 }
             }) {
                 Text(
@@ -337,12 +328,11 @@ fun RandomImageScreen(modifier: Modifier = Modifier) {
                 if (w != null || h != null){
                     if(w in 8..2000 && h in 8..2000){
                         url = "https://loremflickr.com/$w/$h/brazil"
-                        status = 1
                     }else{
-                        status = 2
+                        error = "Please enter width and height again."
                     }
                 }else{
-                    status = 3
+                    error = "Please enter width and height."
                 }}) {
                 Text(
                     text = "brazil",
@@ -350,30 +340,23 @@ fun RandomImageScreen(modifier: Modifier = Modifier) {
                 )
             }
         }
-        Spacer(modifier = Modifier.height(15.dp))
-        if (status != 0) {
-            if(status == 1) {
-                Image(
-                    painter = rememberImagePainter(url),
-                    contentDescription = "Random Image",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(1f)
-                        .clip(shape = MaterialTheme.shapes.medium)
-                )
-            } else if(status == 2) {
-                Text(text = "Please enter width and height again.")
-            } else if (status == 3) {
-                Text(text = "Please enter width and height.")
-        } else {
-            Spacer(modifier = Modifier.width(15.dp))
+
+        Text(
+            text = error,
+            fontSize = 20.sp,
+            color = Color.Red)
+        if (url != ""){
+            Image(
+                painter = rememberImagePainter(url),
+                contentDescription = "Random Image",
+                modifier = Modifier.width(250.dp).height(250.dp)
+                    .fillMaxWidth()
+                    .aspectRatio(1f)
+            )
         }
-
-
-        }
-
+        Spacer(modifier = Modifier.width(20.dp))
         Button(onClick = {
-            status = 0
+            error = ""
             url = ""
             width = ""
             height = ""
